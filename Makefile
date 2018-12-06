@@ -1,13 +1,15 @@
 PNG_NAME        := libpng-1.6.34
-JPEG_SRC_NAME   := jpegsrc.v9a# filename at the server
-JPEG_DIR_NAME   := jpeg-9a# folder name after the JPEG_SRC_NAME archive has been unpacked
-TIFF_NAME       := tiff-4.0.9
+JPEG_SRC_NAME   := jpegsrc.v9c# filename at the server
+JPEG_DIR_NAME   := jpeg-9c# folder name after the JPEG_SRC_NAME archive has been unpacked
+TIFF_NAME       := tiff-4.1.0
+JPEG_NAME       := jpeg-9c
 
 SDK_IPHONEOS_PATH=$(shell xcrun --sdk iphoneos --show-sdk-path)
 SDK_IPHONESIMULATOR_PATH=$(shell xcrun --sdk iphonesimulator --show-sdk-path)
 XCODE_DEVELOPER_PATH="`xcode-select -p`"
 XCODETOOLCHAIN_PATH=$(XCODE_DEVELOPER_PATH)/Toolchains/XcodeDefault.xctoolchain
-IOS_DEPLOY_TGT="7.0"
+# IOS_DEPLOY_TGT="7.0"
+IOS_DEPLOY_TGT="11.0"
 
 IMAGE_SRC = $(shell pwd)
 PNG_SRC   = $(IMAGE_SRC)/$(PNG_NAME)
@@ -22,9 +24,16 @@ libpngfiles = libpng.a
 libjpegfiles = libjpeg.a
 libtifffiles = libtiff.a libtiffxx.a
 
-sdks = $(SDK_IPHONEOS_PATH) $(SDK_IPHONEOS_PATH) $(SDK_IPHONEOS_PATH) $(SDK_IPHONESIMULATOR_PATH) $(SDK_IPHONESIMULATOR_PATH)
-archs_all = armv7 armv7s arm64 i386 x86_64
-arch_names_all = arm-apple-darwin7 arm-apple-darwin7s arm-apple-darwin64 i386-apple-darwin x86_64-apple-darwin
+# before iOS 10 
+# sdks = $(SDK_IPHONEOS_PATH) $(SDK_IPHONEOS_PATH) $(SDK_IPHONEOS_PATH) $(SDK_IPHONEOS_PATH) $(SDK_IPHONESIMULATOR_PATH) $(SDK_IPHONESIMULATOR_PATH)
+# archs_all = armv7 armv7s arm64 arm64e i386 x86_64
+# arch_names_all = arm-apple-darwin7 arm-apple-darwin7s arm-apple-darwin64 arm-apple-darwin64e i386-apple-darwin x86_64-apple-darwin
+
+# after iOS 11
+sdks = $(SDK_IPHONEOS_PATH) $(SDK_IPHONEOS_PATH) $(SDK_IPHONESIMULATOR_PATH)
+archs_all = arm64 arm64e x86_64
+arch_names_all = arm-apple-darwin64 arm-apple-darwin64e x86_64-apple-darwin
+
 arch_names = $(foreach arch, $(ARCHS), $(call swap, $(arch), $(archs_all), $(arch_names_all) ) )
 ARCHS ?= $(archs_all)
 
